@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lucky 2D / 3D Key Generator Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; margin:0; padding:0; font-family: 'Padauk', sans-serif; }
+    body {
+      background: #0b132b;
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px;
+    }
+    .generator-card {
+      background: #1c2541;
+      border: 1px solid #3a506b;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 480px;
+      padding: 24px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+    .header-title {
+      font-size: 21px;
+      font-weight: 700;
+      color: #48cae4;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .header-subtitle {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 22px;
+    }
+    .input-group {
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin-bottom: 7px;
+    }
+    input, select {
+      width: 100%;
+      height: 46px;
+      background: #0b132b;
+      border: 1.5px solid #3a506b;
+      border-radius: 10px;
+      padding: 0 14px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    input:focus, select:focus {
+      border-color: #48cae4;
+      box-shadow: 0 0 8px rgba(72, 202, 228, 0.3);
+    }
+    .btn-generate {
+      width: 100%;
+      height: 48px;
+      background: linear-gradient(135deg, #0077b6, #0096c7);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+      transition: all 0.2s ease;
+    }
+    .btn-generate:hover {
+      background: linear-gradient(135deg, #023e8a, #0077b6);
+      transform: translateY(-1px);
+    }
+    .btn-generate:active {
+      transform: scale(0.98);
+    }
+    .result-container {
+      margin-top: 22px;
+      background: #0b132b;
+      border: 1.5px dashed #48cae4;
+      border-radius: 12px;
+      padding: 16px;
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .key-display {
+      font-size: 17.5px;
+      font-weight: 700;
+      color: #4ade80;
+      word-break: break-all;
+      text-align: center;
+      letter-spacing: 1.5px;
+      font-family: monospace;
+      margin: 12px 0;
+      padding: 10px;
+      background: rgba(74, 222, 128, 0.08);
+      border-radius: 8px;
+    }
+    .btn-copy {
+      width: 100%;
+      height: 40px;
+      background: #3a506b;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: background 0.2s ease;
+    }
+    .btn-copy:hover {
+      background: #5bc0be;
+      color: #0b132b;
+    }
+    .salt-notice {
+      margin-top: 18px;
+      font-size: 11.5px;
+      color: #64748b;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="generator-card">
+    <div class="header-title">
+      <i class="fa-solid fa-key"></i>
+      <span>Lucky 2D / 3D Key Generator</span>
+    </div>
+    <div class="header-subtitle">
+      2D နှင့် 3D App နှစ်မျိုးစလုံးအတွက် အသုံးပြုနိုင်သော Activation Key ထုတ်ပေးသည့်စနစ်
+    </div>
+
+    <!-- Device ID Input -->
+    <div class="input-group">
+      <label><i class="fa-solid fa-mobile-screen" style="margin-right:6px;"></i>စက်အိုင်ဒီ (Device ID)</label>
+      <input type="text" id="deviceIdInput" placeholder="ဥပမာ- LK-9A7F-4B2C-1E3D" autocomplete="off" spellcheck="false">
+    </div>
+
+    <!-- Validity Dropdown -->
+    <div class="input-group">
+      <label><i class="fa-regular fa-clock" style="margin-right:6px;"></i>သက်တမ်း ရွေးချယ်ရန်</label>
+      <select id="validitySelect">
+        <option value="30">၁ လ (30 Days)</option>
+        <option value="90">၃ လ (90 Days)</option>
+        <option value="180">၆ လ (180 Days)</option>
+        <option value="365">၁ နှစ် (365 Days)</option>
+        <option value="9999" selected>တစ်သက်တာ (Lifetime)</option>
+      </select>
+    </div>
+
+    <!-- Generate Button -->
+    <button class="btn-generate" onclick="generateActivationKey()">
+      <i class="fa-solid fa-wand-magic-sparkles"></i> သော့ကုဒ် (Key) ထုတ်ယူမည်
+    </button>
+
+    <!-- Result Display Box -->
+    <div class="result-container" id="resultContainer">
+      <div style="font-size:13px; color:#94a3b8; text-align:center;">
+        <i class="fa-solid fa-circle-check" style="color:#4ade80; margin-right:4px;"></i> ထုတ်ပေးပြီးသော Activation Key:
+      </div>
+      <div class="key-display" id="keyDisplayBox">----</div>
+      <button class="btn-copy" onclick="copyGeneratedKey()">
+        <i class="fa-regular fa-copy"></i> သော့ကုဒ် ကူးယူမည်
+      </button>
+    </div>
+
+    <div class="salt-notice">
+      Security Protocol: SHA-256 Hardware Bound Verification (Offline Ready)
+    </div>
+  </div>
+
+  <script>
+    // 2D နှင့် 3D App နှစ်ခုလုံးတွင် အတူတူ အသုံးပြုသော လျှို့ဝှက် Salt Key
+    const SECRET_SALT = "LUCKY_SHWEKHINMYAY_2D3D_SECURE_SALT_2026";
+
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+    }
+
+    async function generateActivationKey() {
+      const devId = document.getElementById('deviceIdInput').value.trim().toUpperCase();
+      const validityDays = document.getElementById('validitySelect').value;
+
+      if (!devId) {
+        alert("ကျေးဇူးပြု၍ စက်အိုင်ဒီ (Device ID) ကို အရင်ရိုက်ထည့်ပါ!");
+        document.getElementById('deviceIdInput').focus();
+        return;
+      }
+
+      // သက်တမ်း ကုန်ဆုံးမည့် Epoch Timestamp တွက်ချက်ခြင်း
+      let expTimestamp;
+      if (validityDays === "9999") {
+        expTimestamp = 4102444800000; // 2100-01-01 (Lifetime)
+      } else {
+        expTimestamp = Date.now() + (parseInt(validityDays) * 24 * 60 * 60 * 1000);
+      }
+
+      const expHex = expTimestamp.toString(16).toUpperCase();
+
+      // Signature တွက်ချက်ခြင်း: SHA256(DeviceID + "#" + ExpHex + "#" + Salt)
+      const payload = `${devId}#${expHex}#${SECRET_SALT}`;
+      const hash = await sha256(payload);
+      const signature = hash.substring(0, 8); // 8-character checksum
+
+      // Device Hash (4-character check)
+      const devHash = (await sha256(devId)).substring(0, 4);
+
+      // Final Key Format: [EXP_HEX]-[SIGNATURE]-[DEV_HASH]
+      const fullKey = `${expHex}-${signature}-${devHash}`;
+
+      document.getElementById('keyDisplayBox').innerText = fullKey;
+      document.getElementById('resultContainer').style.display = "block";
+    }
+
+    function copyGeneratedKey() {
+      const keyText = document.getElementById('keyDisplayBox').innerText;
+      navigator.clipboard.writeText(keyText).then(() => {
+        alert("သော့ကုဒ် (Activation Key) ကို Clipboard သို့ ကူးယူပြီးပါပြီ:\n\n" + keyText);
+      }).catch(() => {
+        alert(keyText);
+      });
+    }
+  </script>
+</body>
+</html>
+
